@@ -114,6 +114,59 @@ public class Algorithms {
 	} // LRU algorithm
 	
 	
+	public static int ALRU(int frame_number, ArrayList<Integer> input_references) {
+		int page_errors = 0;
+		int remove_index = 0;
+		Algorithms.Page[] frames;
+		
+		ArrayList<Integer> references = (ArrayList<Integer>) input_references.clone();
+		
+		if(frame_number < references.size()){
+			frames = new Algorithms.Page[frame_number];
+			for(int i = 0; i < frame_number; i++)
+				frames[i] = new Algorithms.Page(1,1);
+			//fill frames at the beginning
+				
+			while(!references.isEmpty()){	
+				int index = 0;
+				while(index < frame_number && frames[index].value != references.get(0))
+					index++;
+				if(index < frame_number){
+					frames[index].bit = 1;
+					references.remove(0);
+				}else{
+					int size = references.size();
+					while(size == references.size()){
+						if(frames[remove_index].bit == 1)
+							frames[remove_index].bit = 0;
+						else{
+							frames[remove_index].value = references.remove(0);
+							frames[remove_index].bit = 1;
+						}
+							
+						if(remove_index > (frame_number-2)) 
+							remove_index = 0;
+						else
+							remove_index++;
+						page_errors++;
+					}
+				}
+			}
+		}	
+			return page_errors;
+	} // approximated LRU algorithm (second chance algorithm)
+	
+	private static class Page{
+		int value;
+		int bit;
+		
+		private Page(int value, int bit){
+			this.value = value;
+			this.bit = bit;
+		}
+	} // class used in ALRU algorithm
+	
+	
 	public static int RAND(int frame_number, ArrayList<Integer> input_references) {
 		Random rand = new Random();
 		int page_errors = 0;
