@@ -148,8 +148,8 @@ public class Algorithms {
 							remove_index = 0;
 						else
 							remove_index++;
-						page_errors++;
 					}
+					page_errors++;
 				}
 			}
 		}	
