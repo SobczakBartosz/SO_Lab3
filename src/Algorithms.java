@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Algorithms {
 	
@@ -33,4 +34,35 @@ public class Algorithms {
 		}	
 			return page_errors;
 	} // FIFO algorithm
+	
+	
+	public static int RAND(int frame_number, ArrayList<Integer> input_references) {
+		Random rand = new Random();
+		int page_errors = 0;
+		int remove_index = rand.nextInt(frame_number);
+		int[] frames;
+		
+		ArrayList<Integer> references = (ArrayList<Integer>) input_references.clone();
+		
+		if(frame_number < references.size()){
+			frames = new int[frame_number];
+			for(int i = 0; i < frame_number; i++)
+				frames[i] = i;
+			//fill frames at the beginning
+				
+			while(!references.isEmpty()){
+				int index = 0;
+				while(index < frame_number && frames[index] != references.get(0))
+					index++;
+				if(index < frame_number)
+					references.remove(0);
+				else{
+					frames[remove_index] = references.remove(0);
+					remove_index = rand.nextInt(frame_number);
+					page_errors++;
+				}
+			}
+		}	
+			return page_errors;
+	}// RAND algorithm
 }
